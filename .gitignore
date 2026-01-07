@@ -1,0 +1,12 @@
+#Don't track result files by default.
+*.html
+*.css
+
+#Don't track working python files
+.pytest_cache/
+.venv/
+**/__pycache__/
+
+#Don't track local poetry files.
+poetry.toml
+poetry.lock
