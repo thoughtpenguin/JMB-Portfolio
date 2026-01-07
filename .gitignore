@@ -2,6 +2,9 @@
 *.html
 *.css
 
+#Don't track config files (they contain credentials).
+/configs/
+
 #Don't track working python files
 .pytest_cache/
 .venv/
