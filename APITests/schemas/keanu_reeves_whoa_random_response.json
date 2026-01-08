@@ -1,0 +1,70 @@
+{
+    "type": "array",
+    "items": {
+        "type": "object",
+        "properties": {
+            "movie": {
+                "type": "string"
+            },
+            "year": {
+                "type": "integer"
+            },
+            "release_date": {
+                "type": "string"
+            },
+            "director": {
+                "type": "string"
+            },
+            "character": {
+                "type": "string"
+            },
+            "movie_duration": {
+                "type": "string",
+                "pattern": "\\d{2}:\\d{2}:\\d{2}"
+            },
+            "timestamp": {
+                "type": "string",
+                "pattern": "\\d{2}:\\d{2}:\\d{2}"
+            },
+            "full_line": {
+                "type": "string"
+            },
+            "current_whoa_in_movie": {
+                "type": "integer"
+            },
+            "total_whoas_in_movie": {
+                "type": "integer"
+            },
+            "whoa_grouping": {
+                "oneOf": [
+                    {
+                        "type": "object",
+                        "properties": {
+                            "movie_whoa_group_index": {
+                                "type": "integer"
+                            },
+                            "current_whoa_in _group": {
+                                "type": "integer"
+                            },
+                            "total_whoas_in_group": {
+                                "type": "integer"
+                            }
+                        }
+                    },
+                    {
+                        "const" : null
+                    }
+                ]
+            },
+            "poster": {
+                "type": "string"
+            },
+            "video": {
+                "type": "object"
+            },
+            "audio": {
+                "type": "string"
+            }
+        }
+    }
+}
