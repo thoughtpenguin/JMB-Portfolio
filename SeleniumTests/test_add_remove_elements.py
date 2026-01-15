@@ -1,12 +1,21 @@
+#region Imports
 
 from selenium import webdriver
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.common.by import By
 import pytest
 
+#endregion
+
+#region Constants
+
 ADDED_MANUALLY = 'added-manually'
 URL = 'https://the-internet.herokuapp.com/add_remove_elements/'
 ADD_ELEMENT_BUTTON_XPATH = '//button[@onclick="addElement()"]'
+
+#endregion
+
+#region Fixtures
 
 @pytest.fixture
 def driver():
@@ -21,6 +30,10 @@ def page_loaded(driver:webdriver.Remote):
 @pytest.fixture
 def add_element_button(driver:webdriver.Remote, page_loaded):
     return driver.find_element(By.XPATH, ADD_ELEMENT_BUTTON_XPATH)
+
+#endregion
+
+#region Tests
 
 class TestAddRemoveElements:
     
@@ -99,3 +112,5 @@ class TestAddRemoveElements:
         assert len(delete_buttons) == 0
         driver.close()
         return
+
+#endregion
