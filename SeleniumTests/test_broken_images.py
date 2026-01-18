@@ -8,7 +8,7 @@ URL = BASE_URL + "/broken_images"
 
 @pytest.fixture
 def driver() -> webdriver.Remote:
-    return webdriver.Chrome()
+    return webdriver.Firefox()
 
 @pytest.fixture
 def load_page(driver:webdriver.Remote):
@@ -23,12 +23,10 @@ def downloadable_files(driver:webdriver.Remote, load_page):
 def get_images_in_content_div(driver:webdriver.Remote, load_page):
     return driver.find_elements(By.XPATH, "//div[@id='content']//img")
 
-def image_exists(driver:webdriver.Remote, path):
-    print(path)
-    driver.get(BASE_URL+"/"+path)
+def image_exists(driver:webdriver.Remote, url):
+    driver.get(url)
     #h1 element will be present if page is "Not Found"
     h1 = driver.find_elements(By.TAG_NAME, "h1")
-    print(h1[0].text)
     return len(h1) == 0
 
 class TestBrokenImages:
@@ -37,18 +35,18 @@ class TestBrokenImages:
         driver.quit()
         return
     def test_first_image(self, driver:webdriver.Remote, get_images_in_content_div:list[WebElement]):
-        path = get_images_in_content_div[0].get_attribute("src")
-        assert image_exists(driver, path)
+        url = get_images_in_content_div[0].get_attribute("src")
+        assert image_exists(driver, url)
         driver.quit()
         return
-    def test_second_image(self, driver, get_images_in_content_div:list[WebElement]):
-        path = get_images_in_content_div[1].get_attribute("src")
-        assert image_exists(driver, path)
+    def test_second_image(self, driver:webdriver.Remote, get_images_in_content_div:list[WebElement]):
+        url = get_images_in_content_div[1].get_attribute("src")
+        assert image_exists(driver, url)
         driver.quit()
         return
-    def test_third_image(self, driver, get_images_in_content_div:list[WebElement]):
-        path = get_images_in_content_div[2].get_attribute("src")
-        assert image_exists(driver, path)
+    def test_third_image(self, driver:webdriver.Remote, get_images_in_content_div:list[WebElement]):
+        url = get_images_in_content_div[2].get_attribute("src")
+        assert image_exists(driver, url)
         driver.quit()
 
 
