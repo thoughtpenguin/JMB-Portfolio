@@ -47,7 +47,7 @@ def getRandomWhoaFiltered(query):
 
 #region Tests
 
-class TestKeanuReevesWoah:
+class TestKeanuReevesWhoa:
     def test_random_whoa(self, random_whoa, random_whoa_response_schema):
         assert random_whoa
         assert ValidateJsonWithSchema(random_whoa, random_whoa_response_schema)
