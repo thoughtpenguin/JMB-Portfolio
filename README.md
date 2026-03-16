@@ -13,6 +13,9 @@ For Selenium tests, the credentials can be found at [https://the-internet.heroku
 ## Dependencies
 All of the tests in this project are created using [pytest](https://docs.pytest.org/) library.
 All of the dependencies for this project are linked in pyproject.toml using [Poetry](https://python-poetry.org/). Any library that can install dependencies from .toml files should be able to install the dependencies for this project.
+
+Individual tests can also be run by using the jupyter notebook in the respective test folders.  I have added more specific descriptions of each test in the notebooks as well.
+
 ## API Testing
 The API tests in this project test different APIs that are freely available.
 
