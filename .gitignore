@@ -10,6 +10,9 @@
 .venv/
 **/__pycache__/
 
+#Don't track jupyter notbook checkpoints
+.ipynb_checkpoints/**
+
 #Don't track local poetry files.
 poetry.toml
 poetry.lock
