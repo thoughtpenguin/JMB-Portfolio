@@ -72,6 +72,7 @@ class TestBrokenImages:
         testResult = image_exists(driver, url)
         driver.quit()
         assert testResult
+        return
 
 #endregion
 
