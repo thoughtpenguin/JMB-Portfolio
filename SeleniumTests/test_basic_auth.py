@@ -28,7 +28,7 @@ def alert(driver:webdriver.Remote):
 @pytest.fixture
 def credentials():
     cwd = os.getcwd()
-    configPath = os.path.join(cwd, "../configs/test_basic_auth.json")
+    configPath = os.path.join(cwd, "configs/test_basic_auth.json")
     with open(configPath) as file:
         credentials = json.load(file)
     return credentials
