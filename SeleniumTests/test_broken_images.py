@@ -14,9 +14,13 @@ URL = BASE_URL + "/broken_images"
 
 #region Fixtures
 
-@pytest.fixture
-def driver() -> webdriver.Remote:
-    return webdriver.Firefox()
+@pytest.fixture(params=['Firefox', 'Chrome'])
+def driver(request):
+    #Default to Chrome as the browser being tested since it is the most common.
+    driver = webdriver.Chrome()
+    if request.param == 'Firefox':
+        driver = webdriver.Firefox()
+    return driver
 
 @pytest.fixture
 def load_page(driver:webdriver.Remote):
