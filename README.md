@@ -19,9 +19,9 @@ Individual tests can also be run by using the jupyter notebook in the respective
 ## API Testing
 The API tests in this project test different APIs that are freely available.
 
-All of the API tests in this project can be executed by running the RunAPITests.py script in the root directory.Running this script will create a result HTML file in the root directory called APIResults.html.
+All of the API tests in this project can be executed from the APITests.ipynb file located in the APITests directory.  Each test will generate an HTML file which will be saved in the results subdirectory.
 
 ## Selenium Testing
 The Selenium tests in this project are for [https://the-internet.herokuapp.com/](https://the-internet.herokuapp.com/). This website contains a variety of different web scenarios that can be encountered when created automated web tests.
 
-All of the Selenium tests in this project can be executed by running the RunSeleniumTests.py script in the root directory.  Running this script will create a result HTML file in the root directory called SeleniumResults.html.
+All of the Selenium tests in this project can be executed from the SeleniumTests.ipynb file located in the SeleniumTests directory. Each test will generate an HTML file which will be saved in the results subdirectory.
