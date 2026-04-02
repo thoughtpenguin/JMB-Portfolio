@@ -21,16 +21,15 @@ ADD_ELEMENT_BUTTON_XPATH = '//button[@onclick="addElement()"]'
 
 #region Fixtures
 
-@pytest.fixture(params=['Chrome'])
+@pytest.fixture
 def driver(request):
     #Default to Chrome as the browser being tested since it is the most common.
     chrome_options = Options()
-    if os.environ.get('HEADLESS', 'false').lower() == 'true':
-        chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-dev-shm-usage')
-    chrome_options.add_argument('disable-gpu')
-    chrome_options.add_argument('window-size=1920,1080')
+    chrome_options.add_argument('--disable-gpu')
+    chrome_options.add_argument('--window-size=1920,1080')
     service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=chrome_options)
     yield driver
