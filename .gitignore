@@ -1,10 +1,6 @@
 #Don't track VS Code files.
 .vscode/
 
-#Don't track result files by default.
-*.html
-*.css
-
 #Don't track config files (they contain credentials).
 /configs/
 
