@@ -19,7 +19,7 @@ jobs:
             #Install Poetry and Python Dependencies
             curl -sSL https://install.python-poetry.org | python3 -
             poetry config virtualenvs.in-project true
-            poetry install
+            poetry install  --no-root
             source .venv/bin/activate
 
         - name: Add and Remove Elements Test
