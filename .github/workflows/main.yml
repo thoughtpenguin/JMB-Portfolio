@@ -12,13 +12,19 @@ jobs:
             python-version: 3.14.3
         - name: Install dependencies
           run: |
+            #Install Chrome browser and driver
+            sudo apt-get update
+            sudo apt-get install -y chromium-browser chromium-chromedriver
+            
+            #Install Poetry and Python Dependencies
             curl -sSL https://install.python-poetry.org | python3 -
             poetry config virtualenvs.in-project true
             poetry install
             source .venv/bin/activate
+
         - name: Add and Remove Elements Test
           run: |
-            pytest SeleniumTests/test_add_remove_elements.py --html=results/test_broken_images-$(date +'%s').html
+            pytest SeleniumTests/test_add_remove_elements.py --headless --html=results/test_broken_images-$(date +'%s').html
         - name: Commit Result Files
           uses: actions-x/commit@v6
           with:
