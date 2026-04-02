@@ -22,7 +22,7 @@ jobs:
             poetry install  --no-root
         - name: Add and Remove Elements Test
           run: |
-            poetry run python -m pytest SeleniumTests/test_add_remove_elements.py --headless2 --html=results/test_broken_images-$(date +'%s').html
+            poetry run python -m pytest SeleniumTests/test_add_remove_elements.py --html=results/test_broken_images-$(date +'%s').html
           env:
             CHROME_BIN: /usr/bin/chromium-browser
         - name: Commit Result Files
