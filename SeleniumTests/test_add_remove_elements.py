@@ -17,7 +17,7 @@ ADD_ELEMENT_BUTTON_XPATH = '//button[@onclick="addElement()"]'
 
 #region Fixtures
 
-@pytest.fixture(params=['Firefox', 'Chrome'])
+@pytest.fixture(params=['Chrome'])
 def driver(request):
     #Default to Chrome as the browser being tested since it is the most common.
     driver = webdriver.Chrome()
