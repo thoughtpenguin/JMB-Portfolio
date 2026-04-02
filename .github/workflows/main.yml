@@ -24,7 +24,9 @@ jobs:
 
         - name: Add and Remove Elements Test
           run: |
-            pytest SeleniumTests/test_add_remove_elements.py --headless --html=results/test_broken_images-$(date +'%s').html
+            python -m pytest SeleniumTests/test_add_remove_elements.py --headless --html=results/test_broken_images-$(date +'%s').html
+          env:
+            CHROME_BIN: /usr/bin/chromium-browser
         - name: Commit Result Files
           uses: actions-x/commit@v6
           with:
