@@ -20,12 +20,9 @@ jobs:
             curl -sSL https://install.python-poetry.org | python3 -
             poetry config virtualenvs.in-project true
             poetry install  --no-root
-        - name: Activate Virtual Environment
-          run: |
-            source .venv/bin/activate
         - name: Add and Remove Elements Test
           run: |
-            python -m pytest SeleniumTests/test_add_remove_elements.py --headless --html=results/test_broken_images-$(date +'%s').html
+            poetry run python -m pytest SeleniumTests/test_add_remove_elements.py --headless --html=results/test_broken_images-$(date +'%s').html
           env:
             CHROME_BIN: /usr/bin/chromium-browser
         - name: Commit Result Files
