@@ -3,11 +3,7 @@
 from selenium import webdriver
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
 import pytest
-import os
 
 #endregion
 
@@ -20,20 +16,6 @@ ADD_ELEMENT_BUTTON_XPATH = '//button[@onclick="addElement()"]'
 #endregion
 
 #region Fixtures
-
-@pytest.fixture
-def driver(request):
-    #Default to Chrome as the browser being tested since it is the most common.
-    chrome_options = Options()
-    chrome_options.add_argument('--headless')
-    chrome_options.add_argument('--no-sandbox')
-    chrome_options.add_argument('--disable-dev-shm-usage')
-    chrome_options.add_argument('--disable-gpu')
-    chrome_options.add_argument('--window-size=1920,1080')
-    service = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=service, options=chrome_options)
-    yield driver
-    driver.quit()
 
 @pytest.fixture
 def page_loaded(driver:webdriver.Remote):
@@ -56,13 +38,8 @@ class TestAddRemoveElements:
         return
 
     def test_no_added_elements_present(self, driver:webdriver.Remote, page_loaded):
-        _list = driver.find_elements(By.CLASS_NAME, ADDED_MANUALLY)
-        assert len(_list) == 0
-        return
-    
-    def test_add_element_button_presence(self, driver:webdriver.Remote, add_element_button):
-        assert add_element_button
-
+        element_list = driver.find_elements(By.CLASS_NAME, ADDED_MANUALLY)
+        assert len(element_list) == 0
         return
     
     def test_add_one_element(self, driver:webdriver.Remote, add_element_button:WebElement):
