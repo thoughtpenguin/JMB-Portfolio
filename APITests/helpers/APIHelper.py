@@ -4,7 +4,7 @@ from jsonschema import validate, ValidationError
 
 def LoadSchema(schemaName):
     cwd = os.getcwd()
-    path = os.path.join(cwd, "schemas", schemaName+ ".json")
+    path = os.path.join(cwd, "APITests/schemas", schemaName+ ".json")
     with open(path, "r") as file:
         schema = json.load(file)
     return schema

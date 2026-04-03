@@ -12,7 +12,7 @@ import os
 
 #region Constants
 
-CONFIGURATION_PATH = "./configs/test_basic_auth.json"
+CONFIGURATION_PATH = "configs/test_basic_auth.json"
 SUCCESSFUL_LOGIN_MESSAGE = "Congratulations! You must have the proper credentials."
 UNSUCCESSFUL_LOGIN_MESSAGE = "Not authorized"
 URL_PREFIX = 'https://'
@@ -31,11 +31,10 @@ def alert(driver:webdriver.Remote, browser):
 
 @pytest.fixture
 def credentials():
-    cwd = os.getcwd()
-    configPath = os.path.join(cwd, CONFIGURATION_PATH)
-    with open(configPath) as file:
-        credentials = json.load(file)
-    return credentials
+    testdata = {}
+    with open(CONFIGURATION_PATH) as file:
+        testdata = json.load(file)
+    return testdata
 
 @pytest.fixture
 def invalid_credentials(driver:webdriver.Remote, credentials):

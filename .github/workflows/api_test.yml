@@ -1,0 +1,36 @@
+name: Run API Test
+on:
+    workflow_dispatch:
+        inputs:
+            test_to_run:
+                type: choice
+                options:
+                    - keanu_reeves_whoa
+                    - open_library
+jobs:
+    api-test:
+        runs-on:  ubuntu-latest
+        steps:
+        - uses: actions/checkout@v4
+        - name: Setup Python
+          uses: actions/setup-python@v4
+          with:
+            python-version: 3.14.3
+        - name: Install dependencies
+          run: |
+            #Install Poetry and Python Dependencies
+            curl -sSL https://install.python-poetry.org | python3 -
+            poetry config virtualenvs.in-project true
+            poetry install --no-root
+        - name: ${{inputs.test_to_run}} test
+          run: |
+            poetry run python -m pytest APITests/test_${{inputs.test_to_run}}.py -v --html=resuls/test_${{inputs.test_to_run}}_$(date +'%s').html
+        - name: Upload resuls as artifact
+          id: deployment
+          uses: actions/upload-artifact@v4
+          with:
+            name: ${{inputs.test_to_run}} Test Results
+            retention-days: 30
+            path: results/
+
+            

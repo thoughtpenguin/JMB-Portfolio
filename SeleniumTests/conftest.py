@@ -8,16 +8,25 @@ from selenium.webdriver.firefox.service import Service as FirefoxService
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
 import pytest
-import os
+import json
 
 def pytest_addoption(parser):
     parser.addoption(
-        '--browser', action='store', default='Chrome', help='browser: chrome or firefox'
+        '--browser', action='store', default='chrome', help='browser: Chrome or Firefox'
     )
     parser.addoption(
         '--headless', action='store', default='True', help='debug: True or False'
     )
+    # parser.addoption(
+    #     '--test-data', action='store', default='{}', help='test data pass in as a JSON string'
+    # )
 
+
+# @pytest.fixture
+# def testdata(request):
+#     data = request.path
+#     data = json.loads(data)
+#     return data
 
 @pytest.fixture
 def browser(request):
@@ -29,7 +38,7 @@ def headless(request):
 
 @pytest.fixture
 def driver(browser, headless):
-    driver = ''
+    
     if browser == 'firefox':
         firefox_options = FirefoxOptions()
         if headless == 'True':
@@ -37,6 +46,8 @@ def driver(browser, headless):
         firefox_options.add_argument('--window-size=1920,1080')
         service = FirefoxService(GeckoDriverManager().install())
         driver = webdriver.Firefox(service=service, options=firefox_options)
+        yield driver
+        driver.quit()
     else:
         chrome_options = ChromeOptions()
         if headless == 'True':
@@ -47,5 +58,5 @@ def driver(browser, headless):
         chrome_options.add_argument('--window-size=1920,1080')
         service = ChromeService(ChromeDriverManager().install())
         driver = webdriver.Chrome(service=service, options=chrome_options)
-    yield driver
-    driver.quit()
+        yield driver
+        driver.quit()
