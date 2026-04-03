@@ -6,6 +6,11 @@ on:
           type: choice
           options:
             - add_remove_elements
+        browser_to_target:
+          type: choice
+          options:
+            - Chrome
+            - Firefox
 jobs:
     test:
         runs-on: ubuntu-latest
@@ -17,17 +22,30 @@ jobs:
             python-version: 3.14.3
         - name: Install dependencies
           run: |
-            #Install Chrome browser and driver
-            sudo apt-get update
-            sudo apt-get install -y chromium-browser chromium-chromedriver
+            #Install Firefox browser and driver
+            if [ ${{inputs.browser_to_target}} -eq 'firefox']: then
+              sudo apt-get update
+              sudo apt-get install -y firefox   
             
+            #Install Chrome browser and driver by default if no other browser is specified
+            else
+              sudo apt-get update
+              sudo apt-get install -y chromium-browser chromium-chromedriver
+            fi
+
             #Install Poetry and Python Dependencies
             curl -sSL https://install.python-poetry.org | python3 -
             poetry config virtualenvs.in-project true
             poetry install  --no-root
-        - name: ${{inputs.test_to_run}} Test
+        - name: Test Setup - ${{inputs.test_to_run}}
           run: |
-            poetry run python -m pytest SeleniumTests/test_${{inputs.test_to_run}}.py -v --html=results/test_add_remove_elements_$(date +'%s').html
+            if [${{inputs.test_to_run}} -eq 'basic_auth' ]: then
+              mkdirs configs
+              touch configs/test_basic_auth.json
+              echo ${{secrets.TEST_BASIC_AUTH_CREDENTIALS}} >> configs/test_basic_auth.json
+        - name: ${{inputs.test_to_run}} Test - ${{inputs.browser_to_target}}
+          run: |
+            poetry run python -m pytest SeleniumTests/test_${{inputs.test_to_run}}.py -v --html=results/test_add_remove_elements_$(date +'%s').html --browser=${{inputs.browser_to_target}}
           env:
             CHROME_BIN: /usr/bin/chromium-browser
         - name: Upload results as artifact
