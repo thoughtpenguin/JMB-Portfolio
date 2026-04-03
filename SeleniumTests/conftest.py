@@ -14,6 +14,9 @@ def pytest_addoption(parser):
     parser.addoption(
         '--browser', action='store', default='Chrome', help='browser: chrome or firefox'
     )
+    parser.addoption(
+        '--headless', action='store', default='True', help='debug: True or False'
+    )
 
 
 @pytest.fixture
@@ -21,17 +24,23 @@ def browser(request):
     return request.config.getoption('--browser')
 
 @pytest.fixture
-def driver(browser):
+def headless(request):
+    return request.config.getoption('--headless')
+
+@pytest.fixture
+def driver(browser, headless):
     driver = ''
     if browser == 'firefox':
         firefox_options = FirefoxOptions()
-        firefox_options.add_argument('--headless')
+        if headless == 'True':
+            firefox_options.add_argument('--headless')
         firefox_options.add_argument('--window-size=1920,1080')
         service = FirefoxService(GeckoDriverManager().install())
         driver = webdriver.Firefox(service=service, options=firefox_options)
     else:
         chrome_options = ChromeOptions()
-        chrome_options.add_argument('--headless')
+        if headless == 'True':
+            chrome_options.add_argument('--headless')
         chrome_options.add_argument('--no-sandbox')
         chrome_options.add_argument('--disable-dev-shm-usage')
         chrome_options.add_argument('--disable-gpu')
