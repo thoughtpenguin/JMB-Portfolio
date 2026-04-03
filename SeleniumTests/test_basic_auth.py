@@ -12,7 +12,7 @@ import os
 
 #region Constants
 
-CONFIGURATION_PATH = "../configs/test_basic_auth.json"
+CONFIGURATION_PATH = "./configs/test_basic_auth.json"
 SUCCESSFUL_LOGIN_MESSAGE = "Congratulations! You must have the proper credentials."
 UNSUCCESSFUL_LOGIN_MESSAGE = "Not authorized"
 URL_PREFIX = 'https://'
@@ -25,7 +25,7 @@ URL_SUFFIX = 'the-internet.herokuapp.com/basic_auth/'
 
 @pytest.fixture
 def alert(driver:webdriver.Remote, browser):
-    if browser != 'Chrome':
+    if browser != 'chrome':
         return driver.switch_to.alert
     return True
 
@@ -36,17 +36,6 @@ def credentials():
     with open(configPath) as file:
         credentials = json.load(file)
     return credentials
-
-@pytest.fixture(params=['Chrome', 'Firefox'])
-def browser(request):
-    return request.param
-
-@pytest.fixture
-def driver(browser):
-    driver = webdriver.Chrome()
-    if browser == 'Firefox':
-        driver = webdriver.Firefox()
-    return driver
 
 @pytest.fixture
 def invalid_credentials(driver:webdriver.Remote, credentials):
@@ -91,8 +80,16 @@ def buildURL(username="", password=""):
     return URL_PREFIX + username + ":" + password + "@" + URL_SUFFIX
 
 def unsuccessfulLogin(driver:webdriver.Remote) -> bool:
-    body = driver.find_element(By.CSS_SELECTOR, "body")
-    return (body.text == UNSUCCESSFUL_LOGIN_MESSAGE) or (body.text == '')
+    result = False
+    attempt = 1
+    while attempt < 3:
+        try:
+            body = driver.find_element(By.CSS_SELECTOR, "body")
+            result = (body.text == UNSUCCESSFUL_LOGIN_MESSAGE) or (body.text == '')
+        except Exception as e:
+            continue
+        attempt += 1
+    return result
 
 def successfulLogin(driver:webdriver.Remote) -> bool:
     element = driver.find_element(By.CSS_SELECTOR, "p")
@@ -106,39 +103,34 @@ class TestBasicAuth:
 
     def test_cancelled_login(self, driver:webdriver.Remote, no_login, alert:Alert, browser):
         assert alert
-        if browser != 'Chrome':
+        if browser != 'chrome':
             alert.dismiss()
         assert unsuccessfulLogin(driver)
-        driver.close()
         return
 
     def test_successful_login(self, driver:webdriver.Remote, successful_login):
         assert successfulLogin(driver)
-        driver.close()
         return
 
     def test_invalid_user(self, driver:webdriver.Remote, invalid_user, alert:Alert, browser):
         assert alert
-        if browser != 'Chrome':
+        if browser != 'chrome':
             alert.dismiss()
         assert unsuccessfulLogin(driver)
-        driver.close()
         return
 
     def test_invalid_password(self, driver:webdriver.Remote, invalid_password, alert:Alert, browser):
         assert alert
-        if browser != 'Chrome':
+        if browser != 'chrome':
             alert.dismiss()
         assert unsuccessfulLogin(driver)
-        driver.close()
         return
 
     def test_invalid_credentials(self, driver:webdriver.Remote, invalid_credentials, alert:Alert, browser):
         assert alert
-        if browser != 'Chrome':
+        if browser != 'chrome':
             alert.dismiss()
         assert unsuccessfulLogin(driver)
-        driver.close()
         return
     
 #endregion
