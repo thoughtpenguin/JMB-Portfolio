@@ -6,6 +6,8 @@ on:
           type: choice
           options:
             - add_remove_elements
+            - basic_auth
+            - broken_images
         browser_to_target:
           type: choice
           options:
