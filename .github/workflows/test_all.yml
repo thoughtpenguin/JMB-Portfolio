@@ -35,7 +35,7 @@ jobs:
                 retention-days: 30
                 path: results/
     selenium-tests:
-        if: ${{(inputs.category_to_run == 'api') || (inputs.category_to_run == 'all')}}
+        if: ${{(inputs.category_to_run == 'selenium') || (inputs.category_to_run == 'all')}}
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
@@ -47,9 +47,11 @@ jobs:
               run: |
                 #Install Chrome Browser and Driver
                 sudo apt-get update
+                #wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
                 sudo apt-get install -y chromium-browser chromium-chromedriver
 
                 #Install Poetry and Python Dependencies
+                curl -sSL https://install.python-poetry.org | python3 -
                 poetry config virtualenvs.in-project true
                 poetry install --no-root
             - name: Setup Test Data
@@ -60,10 +62,10 @@ jobs:
                 echo ${{secrets.TEST_BASIC_AUTH_CREDENTIALS}} >> configs/test_basic_auth.json
             - name: Run Tests in Chrome
               run: |
-                poetry run -m pytest SeleniumTests/ -v --html=results/all_selenium_tests_(date +'%s').html --browser='chrome' --headless='True'
+                poetry run python -m pytest SeleniumTests/ -v --html=results/all_selenium_tests_$(date +'%s').html --browser='chrome' --headless='True'
             - name: Run Tests in Firefox
               run: |
-                poetry run -m pytest SeleniumTests/ -v --html=results/all_selenium_tests_(date +'%s').html --browser='firefox' --headless='True'
+                poetry run python -m pytest SeleniumTests/ -v --html=results/all_selenium_tests_$(date +'%s').html --browser='firefox' --headless='True'
             - name: Upload Results as Artifact
               uses: actions/upload-artifact@v4  
               with:
