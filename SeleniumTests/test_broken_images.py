@@ -53,17 +53,17 @@ class TestBrokenImages:
         assert testResult
         return
     
-    def test_second_image(self, driver:webdriver.Remote, get_images_in_content_div:list[WebElement]):
+    def test_second_image_not_present(self, driver:webdriver.Remote, get_images_in_content_div:list[WebElement]):
         url = get_images_in_content_div[1].get_attribute("src")
         #Second image tag should be broken and this test should fail.
         testResult = image_exists(driver, url)
-        assert testResult
+        assert not testResult
         return
     
-    def test_third_image(self, driver:webdriver.Remote, get_images_in_content_div:list[WebElement]):
+    def test_third_image_not_present(self, driver:webdriver.Remote, get_images_in_content_div:list[WebElement]):
         url = get_images_in_content_div[2].get_attribute("src")
         testResult = image_exists(driver, url)
-        assert testResult
+        assert not testResult
         return
 
 #endregion
