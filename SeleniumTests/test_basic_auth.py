@@ -104,32 +104,32 @@ class TestBasicAuth:
         assert alert
         if browser != 'chrome':
             alert.dismiss()
-        assert unsuccessfulLogin(driver)
+        assert unsuccessfulLogin(driver), "Login should have been unsuccessful."
         return
 
     def test_successful_login(self, driver:webdriver.Remote, successful_login):
-        assert successfulLogin(driver)
+        assert successfulLogin(driver), "Login should have been successful."
         return
 
     def test_invalid_user(self, driver:webdriver.Remote, invalid_user, alert:Alert, browser):
         assert alert
         if browser != 'chrome':
             alert.dismiss()
-        assert unsuccessfulLogin(driver)
+        assert unsuccessfulLogin(driver), "Login should have been unsuccessful."
         return
 
     def test_invalid_password(self, driver:webdriver.Remote, invalid_password, alert:Alert, browser):
         assert alert
         if browser != 'chrome':
             alert.dismiss()
-        assert unsuccessfulLogin(driver)
+        assert unsuccessfulLogin(driver), "Login should have been unsuccessful."
         return
 
     def test_invalid_credentials(self, driver:webdriver.Remote, invalid_credentials, alert:Alert, browser):
         assert alert
         if browser != 'chrome':
             alert.dismiss()
-        assert unsuccessfulLogin(driver)
+        assert unsuccessfulLogin(driver), "Login should have been unsuccessful."
         return
     
 #endregion
