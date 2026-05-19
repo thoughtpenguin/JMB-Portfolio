@@ -49,18 +49,19 @@ def getRandomWhoaFiltered(query):
 
 class TestKeanuReevesWhoa:
     def test_random_whoa(self, random_whoa, random_whoa_response_schema):
-        assert random_whoa
+        assert random_whoa, "Response should be returned."
         assert ValidateJsonWithSchema(random_whoa, random_whoa_response_schema)
         return
     def test_five_random_whoas(self, five_random_whoas, random_whoa_response_schema):
-        assert five_random_whoas
+        assert five_random_whoas, "Response should be returned."
         assert ValidateJsonWithSchema(five_random_whoas, random_whoa_response_schema)
         return
     def test_whoa_retrieval(self, random_whoa:dict, all_movies, random_whoa_response_schema):
-        assert random_whoa
-        assert all_movies
-        targetMovie = random_whoa[0]["movie"]
-        whoaIndex = random_whoa[0]["current_whoa_in_movie"]-1
+        assert random_whoa, "Response should be returned."
+        assert all_movies, "Response should be returned."
+        whoa = random_whoa[0]
+        targetMovie = whoa["movie"]
+        whoaIndex = whoa["current_whoa_in_movie"]-1
         for movie in all_movies:
             if movie == targetMovie:
                 break
@@ -70,7 +71,7 @@ class TestKeanuReevesWhoa:
             response = getRandomWhoaFiltered({ "movie" : movie })
             whoaIndex += response[0]["total_whoas_in_movie"]
         ordered_whoa = getWhoaByIndex(whoaIndex)
-        assert ordered_whoa == random_whoa[0]
+        assert ordered_whoa == whoa, "Random whoa is at expected whoa Index."
         return
 
 #endregion
